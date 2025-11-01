@@ -1,3 +1,6 @@
+/// <summary>
+/// Реализация ICommand для привязки команд к кнопкам и действиям UI
+/// </summary>
 using System;
 using System.Windows.Input;
 
@@ -31,4 +34,3 @@ namespace EngineeringTargets.Helpers
         }
     }
 }
-

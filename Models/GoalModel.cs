@@ -1,5 +1,6 @@
-using System;
-
+/// <summary>
+/// Модель цели: код, уровень, название, относительный вес
+/// </summary>
 namespace EngineeringTargets.Models
 {
     public class GoalModel
@@ -10,4 +11,3 @@ namespace EngineeringTargets.Models
         public double RelativeWeight { get; set; }
     }
 }
-

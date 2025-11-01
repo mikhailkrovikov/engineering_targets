@@ -1,3 +1,6 @@
+/// <summary>
+/// Модель узла графа для визуализации цели
+/// </summary>
 using System.Windows;
 
 namespace EngineeringTargets.Models
@@ -14,4 +17,3 @@ namespace EngineeringTargets.Models
         public double Height { get; set; } = 60;
     }
 }
-

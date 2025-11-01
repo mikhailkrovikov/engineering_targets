@@ -1,3 +1,6 @@
+/// <summary>
+/// ViewModel для расчета и отображения результатов: матрицы, абсолютные веса, сортировка, фильтрация
+/// </summary>
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -141,14 +144,12 @@ namespace EngineeringTargets.ViewModels
                     GoalResults.Add(result);
                 }
 
-                // Заполнение матриц
                 int N = _calculationResult.MatrixA.GetLength(0);
                 var sortedGoals = _project.Goals
                     .OrderBy(g => g.LevelIndex)
                     .ThenBy(g => int.Parse(g.Code.Split('-')[1]))
                     .ToList();
 
-                // Сохраняем коды целей в порядке сортировки для заголовков колонок
                 SortedGoalCodes = sortedGoals.Select(g => g.Code).ToList();
 
                 for (int i = 0; i < N; i++)
@@ -168,9 +169,8 @@ namespace EngineeringTargets.ViewModels
 
                 OnPropertyChanged(nameof(SortedGoalCodes));
 
-                // Создаем строки с информацией о связях
                 BuildCalculationRows();
-                SortResults(); // SortResults уже вызывает FilterByThreshold внутри
+                SortResults();
             }
             else
             {
@@ -215,7 +215,6 @@ namespace EngineeringTargets.ViewModels
                     Rank = goalResult.Rank
                 };
 
-                // Находим входящие и исходящие связи
                 var incomingLinks = _project.Links
                     .Where(l => l.ToGoalCode == goalResult.Code)
                     .Select(l => l.FromGoalCode)
@@ -229,7 +228,6 @@ namespace EngineeringTargets.ViewModels
                 row.IncomingLinks = incomingLinks;
                 row.OutgoingLinks = outgoingLinks;
 
-                // Форматируем отображение связей
                 var linksParts = new List<string>();
                 if (incomingLinks.Any())
                 {
@@ -255,7 +253,6 @@ namespace EngineeringTargets.ViewModels
         {
             if (CalculationRows.Count == 0) return;
 
-            // Сохраняем данные во временный список для сортировки
             var tempList = CalculationRows.ToList();
 
             IEnumerable<CalculationResultRow> sorted = SortColumn switch
@@ -286,10 +283,8 @@ namespace EngineeringTargets.ViewModels
                 CalculationRows.Add(row);
             }
 
-            // Уведомляем об изменении CalculationRows
             OnPropertyChanged(nameof(CalculationRows));
 
-            // Обновляем топ-10 лучших и худших
             UpdateTopBottom10();
             FilterByThreshold();
         }
@@ -344,7 +339,6 @@ namespace EngineeringTargets.ViewModels
             }
             else
             {
-                // Показываем все результаты если порог = 0
                 foreach (var row in CalculationRows)
                 {
                     FilteredCalculationRows.Add(row);
@@ -379,7 +373,6 @@ namespace EngineeringTargets.ViewModels
 
             if (result == MessageBoxResult.Yes)
             {
-                // Удаляем цели и связанные связи
                 foreach (var goalCode in goalsToRemove)
                 {
                     var goal = _project.Goals.FirstOrDefault(g => g.Code == goalCode);
@@ -390,13 +383,15 @@ namespace EngineeringTargets.ViewModels
                     }
                 }
 
-                // Пересчитываем
                 _onProjectChanged?.Invoke();
                 Calculate();
             }
         }
     }
 
+    /// <summary>
+    /// Модель строки матрицы для отображения в DataGrid
+    /// </summary>
     public class MatrixRow
     {
         public int RowNumber { get; set; }
@@ -404,4 +399,3 @@ namespace EngineeringTargets.ViewModels
         public List<double> Values { get; set; } = new List<double>();
     }
 }
-

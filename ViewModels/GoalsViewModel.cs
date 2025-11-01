@@ -1,3 +1,6 @@
+/// <summary>
+/// ViewModel для управления целями (устаревший, используется LevelsAndGoalsViewModel)
+/// </summary>
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -119,7 +122,6 @@ namespace EngineeringTargets.ViewModels
         {
             if (SelectedGoal != null)
             {
-                // Удаляем связи с этой целью
                 _project.Links.RemoveAll(l => l.FromGoalCode == SelectedGoal.Code || l.ToGoalCode == SelectedGoal.Code);
                 _project.Goals.Remove(SelectedGoal);
                 Goals.Remove(SelectedGoal);
@@ -138,7 +140,6 @@ namespace EngineeringTargets.ViewModels
                 {
                     _project.Goals[projectIndex].RelativeWeight = NewGoalWeight;
                 }
-                // Обновляем коллекцию для уведомления UI
                 var index = Goals.IndexOf(SelectedGoal);
                 if (index >= 0)
                 {

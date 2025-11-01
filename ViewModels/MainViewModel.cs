@@ -1,3 +1,6 @@
+/// <summary>
+/// Главный ViewModel, управляет проектом и координирует все модули приложения
+/// </summary>
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -26,7 +29,6 @@ namespace EngineeringTargets.ViewModels
             CalculationViewModel = new CalculationViewModel(_project, OnProjectChanged);
             GraphViewModel = new GraphViewModel(_project, OnProjectChanged);
             
-            // Подписываемся на изменения результатов расчета для обновления графа
             CalculationViewModel.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(CalculationViewModel.HasResults) && CalculationViewModel.HasResults)
@@ -44,7 +46,6 @@ namespace EngineeringTargets.ViewModels
 
         private void OnProjectChangedHandler()
         {
-            // Обновляем все ViewModels при изменении проекта
             LevelsAndGoalsViewModel.UpdateProject(_project);
             LinksViewModel.UpdateProject(_project);
             CalculationViewModel.UpdateProject(_project);
@@ -123,4 +124,3 @@ namespace EngineeringTargets.ViewModels
         }
     }
 }
-

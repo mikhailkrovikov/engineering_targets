@@ -1,3 +1,6 @@
+/// <summary>
+/// Результаты расчета: абсолютные веса, матрицы A и W, ошибки валидации
+/// </summary>
 using System.Collections.Generic;
 
 namespace EngineeringTargets.Models
@@ -21,4 +24,3 @@ namespace EngineeringTargets.Models
         public int Rank { get; set; }
     }
 }
-

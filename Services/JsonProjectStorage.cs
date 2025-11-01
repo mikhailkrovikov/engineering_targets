@@ -1,3 +1,6 @@
+/// <summary>
+/// Сервис сохранения и загрузки проектов в формате JSON
+/// </summary>
 using System.IO;
 using EngineeringTargets.Models;
 using Newtonsoft.Json;
@@ -19,4 +22,3 @@ namespace EngineeringTargets.Services
         }
     }
 }
-

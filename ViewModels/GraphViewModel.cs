@@ -1,3 +1,6 @@
+/// <summary>
+/// ViewModel для визуализации графа целей на Canvas
+/// </summary>
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,8 +18,8 @@ namespace EngineeringTargets.ViewModels
         private readonly IGoalsGraphCalculator? _calculator;
         private Action? _onProjectChanged;
         
-        private const double LEVEL_SPACING = 150; // Расстояние между уровнями
-        private const double NODE_SPACING = 150; // Расстояние между узлами одного уровня
+        private const double LEVEL_SPACING = 150;
+        private const double NODE_SPACING = 150;
         private const double NODE_WIDTH = 140;
         private const double NODE_HEIGHT = 70;
         private const double MARGIN_X = 100;
@@ -26,7 +29,7 @@ namespace EngineeringTargets.ViewModels
         {
             _project = project;
             _onProjectChanged = onProjectChanged;
-            _calculator = new Services.GoalsGraphCalculator();
+            _calculator = new GoalsGraphCalculator();
             Nodes = new ObservableCollection<GraphNodeViewModel>();
             Edges = new ObservableCollection<GraphEdgeViewModel>();
             
@@ -61,7 +64,6 @@ namespace EngineeringTargets.ViewModels
                 return;
             }
 
-            // Получаем абсолютные веса, если возможно
             var calculationResult = _calculator?.Calculate(_project);
             var absoluteWeights = new Dictionary<string, double>();
             if (calculationResult?.IsValid == true)
@@ -72,14 +74,12 @@ namespace EngineeringTargets.ViewModels
                 }
             }
 
-            // Группируем цели по уровням
             var levels = _project.Levels.OrderBy(l => l.Index).ToList();
             var goalsByLevel = _project.Goals
                 .GroupBy(g => g.LevelIndex)
                 .OrderBy(g => g.Key)
                 .ToList();
 
-            // Размещаем узлы по уровням
             var nodePositions = new Dictionary<string, GraphNodeViewModel>();
             double currentY = MARGIN_Y;
 
@@ -118,7 +118,6 @@ namespace EngineeringTargets.ViewModels
                 currentY += LEVEL_SPACING;
             }
 
-            // Строим связи
             foreach (var link in _project.Links)
             {
                 if (nodePositions.ContainsKey(link.FromGoalCode) && nodePositions.ContainsKey(link.ToGoalCode))
@@ -138,14 +137,12 @@ namespace EngineeringTargets.ViewModels
                 }
             }
 
-            // Вычисляем размеры Canvas
             if (Nodes.Count > 0)
             {
                 double maxX = Nodes.Max(n => n.Position.X + NODE_WIDTH);
                 double maxY = Nodes.Max(n => n.Position.Y + NODE_HEIGHT);
                 double maxLevelWidth = 0;
                 
-                // Находим максимальную ширину уровня для центрирования
                 foreach (var level in levels)
                 {
                     var levelGoals = goalsByLevel.FirstOrDefault(g => g.Key == level.Index);
@@ -178,4 +175,3 @@ namespace EngineeringTargets.ViewModels
         }
     }
 }
-

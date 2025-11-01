@@ -1,3 +1,6 @@
+/// <summary>
+/// Валидация проектов: проверка целей, уровней, связей, сумм весов
+/// </summary>
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +14,17 @@ namespace EngineeringTargets.Helpers
         {
             var errors = new List<string>();
 
-            // Пустой проект
             if (project == null || (project.Levels.Count == 0 && project.Goals.Count == 0))
             {
                 errors.Add("Проект пуст");
                 return errors;
             }
 
-            // Пустой список целей
             if (project.Goals.Count == 0)
             {
                 errors.Add("Список целей пуст");
             }
 
-            // Проверка уровней без целей
             foreach (var level in project.Levels)
             {
                 if (!project.Goals.Any(g => g.LevelIndex == level.Index))
@@ -33,7 +33,6 @@ namespace EngineeringTargets.Helpers
                 }
             }
 
-            // Проверка суммы весов по уровням
             foreach (var level in project.Levels)
             {
                 var levelGoals = project.Goals.Where(g => g.LevelIndex == level.Index).ToList();
@@ -46,7 +45,6 @@ namespace EngineeringTargets.Helpers
                         errors.Add($"Сумма весов уровня {level.Index} равна {sum:F3}, должна быть 1.0");
                     }
 
-                    // Проверка целей без веса
                     foreach (var goal in levelGoals)
                     {
                         if (goal.RelativeWeight < 0 || goal.RelativeWeight > 1)
@@ -57,7 +55,6 @@ namespace EngineeringTargets.Helpers
                 }
             }
 
-            // Проверка связей
             foreach (var link in project.Links)
             {
                 var fromGoal = project.Goals.FirstOrDefault(g => g.Code == link.FromGoalCode);
@@ -75,13 +72,11 @@ namespace EngineeringTargets.Helpers
                     continue;
                 }
 
-                // Связь на тот же уровень или вверх
                 if (fromGoal.LevelIndex >= toGoal.LevelIndex)
                 {
                     errors.Add($"Недопустимая связь: {link.FromGoalCode} (уровень {fromGoal.LevelIndex}) -> {link.ToGoalCode} (уровень {toGoal.LevelIndex})");
                 }
 
-                // Петля
                 if (link.FromGoalCode == link.ToGoalCode)
                 {
                     errors.Add($"Петля: цель {link.FromGoalCode} связана сама с собой");
@@ -92,4 +87,3 @@ namespace EngineeringTargets.Helpers
         }
     }
 }
-

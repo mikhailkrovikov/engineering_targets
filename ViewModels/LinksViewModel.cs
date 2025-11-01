@@ -1,3 +1,6 @@
+/// <summary>
+/// ViewModel для управления связями между целями
+/// </summary>
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,7 +16,6 @@ namespace EngineeringTargets.ViewModels
         private LinkModel? _selectedLink;
         private string? _selectedFromGoal;
         private string? _selectedToGoal;
-
         private Action? _onProjectChanged;
 
         public LinksViewModel(ProjectModel project, Action? onProjectChanged = null)
@@ -91,11 +93,9 @@ namespace EngineeringTargets.ViewModels
             if (fromGoal == null || toGoal == null)
                 return false;
 
-            // Связь только вниз
             if (fromGoal.LevelIndex >= toGoal.LevelIndex)
                 return false;
 
-            // Проверка на дубликат
             if (_project.Links.Any(l => l.FromGoalCode == SelectedFromGoal && l.ToGoalCode == SelectedToGoal))
                 return false;
 
@@ -131,4 +131,3 @@ namespace EngineeringTargets.ViewModels
         }
     }
 }
-

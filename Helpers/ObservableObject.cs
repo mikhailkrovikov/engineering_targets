@@ -1,3 +1,6 @@
+/// <summary>
+/// Базовый класс для ViewModels с поддержкой уведомлений об изменении свойств
+/// </summary>
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -24,4 +27,3 @@ namespace EngineeringTargets.Helpers
         }
     }
 }
-

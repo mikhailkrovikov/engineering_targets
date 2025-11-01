@@ -1,3 +1,6 @@
+/// <summary>
+/// Code-behind главного окна: обработка событий UI, динамическое обновление колонок матриц
+/// </summary>
 using System;
 using System.Linq;
 using System.Windows;
@@ -29,14 +32,12 @@ namespace EngineeringTargets.Views
                 e.PropertyName == nameof(CalculationViewModel.MatrixW) ||
                 e.PropertyName == nameof(CalculationViewModel.HasResults))
             {
-                // Используем Dispatcher для обновления UI после того, как данные добавлены
                 Dispatcher.BeginInvoke(new Action(() => UpdateMatrixColumns()), System.Windows.Threading.DispatcherPriority.Loaded);
             }
         }
 
         private void WeightTextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            // Разрешаем только цифры и точку/запятую
             if (!char.IsDigit(e.Text, 0) && e.Text != "." && e.Text != ",")
             {
                 e.Handled = true;
@@ -48,15 +49,13 @@ namespace EngineeringTargets.Views
             var textBox = sender as TextBox;
             if (textBox == null) return;
 
-            // Проверяем, является ли символ допустимым (цифра, точка, запятая, минус только в начале)
             if (char.IsDigit(e.Text, 0))
             {
-                return; // Цифры разрешены
+                return;
             }
 
             if (e.Text == "." || e.Text == ",")
             {
-                // Проверяем, нет ли уже точки или запятой
                 string currentText = textBox.Text ?? "";
                 if (currentText.Contains('.') || currentText.Contains(','))
                 {
@@ -65,13 +64,11 @@ namespace EngineeringTargets.Views
                 return;
             }
 
-            // Все остальное запрещено
             e.Handled = true;
         }
 
         private void MinWeightTextBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            // Разрешаем Delete, Backspace, Tab и другие служебные клавиши
             if (e.Key == System.Windows.Input.Key.Back || 
                 e.Key == System.Windows.Input.Key.Delete ||
                 e.Key == System.Windows.Input.Key.Tab ||
@@ -81,7 +78,6 @@ namespace EngineeringTargets.Views
                 return;
             }
 
-            // Разрешаем Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+A
             if (e.KeyboardDevice.Modifiers == System.Windows.Input.ModifierKeys.Control)
             {
                 if (e.Key == System.Windows.Input.Key.C ||
@@ -151,28 +147,24 @@ namespace EngineeringTargets.Views
 
             if (DataContext is not MainViewModel viewModel) return;
 
-            // Очищаем старые колонки (кроме первой с кодом)
             var columnsToRemove = dataGrid.Columns.Where(c => c.Header?.ToString() != "Код").ToList();
             foreach (var col in columnsToRemove)
             {
                 dataGrid.Columns.Remove(col);
             }
 
-            // Добавляем новые колонки для значений матрицы
-            // Заголовки колонок - это коды целей в отсортированном порядке
             var sortedGoalCodes = viewModel.CalculationViewModel.SortedGoalCodes;
             int columnCount = rows[0].Values.Count;
 
-            // Определяем формат в зависимости от типа матрицы
             bool isMatrixA = dataGrid == MatrixADataGrid;
             string format = isMatrixA ? "F0" : "F3";
 
             for (int i = 0; i < columnCount && i < sortedGoalCodes.Count; i++)
             {
-                int columnIndex = i; // Для замыкания
+                int columnIndex = i;
                 var column = new DataGridTextColumn
                 {
-                    Header = sortedGoalCodes[i], // Используем код цели как заголовок
+                    Header = sortedGoalCodes[i],
                     Binding = new Binding($"Values[{columnIndex}]")
                     {
                         StringFormat = format
@@ -185,4 +177,3 @@ namespace EngineeringTargets.Views
         }
     }
 }
-

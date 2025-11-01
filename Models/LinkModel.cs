@@ -1,3 +1,6 @@
+/// <summary>
+/// Модель связи между целями
+/// </summary>
 namespace EngineeringTargets.Models
 {
     public class LinkModel
@@ -6,4 +9,3 @@ namespace EngineeringTargets.Models
         public string ToGoalCode { get; set; } = string.Empty;
     }
 }
-

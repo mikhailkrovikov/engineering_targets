@@ -1,3 +1,6 @@
+/// <summary>
+/// ViewModel для управления уровнями (устаревший, используется LevelsAndGoalsViewModel)
+/// </summary>
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -78,11 +81,9 @@ namespace EngineeringTargets.ViewModels
             {
                 int levelIndex = SelectedLevel.Index;
                 
-                // Удаляем все цели этого уровня
                 var goalsToDelete = _project.Goals.Where(g => g.LevelIndex == levelIndex).ToList();
                 foreach (var goal in goalsToDelete)
                 {
-                    // Удаляем все связи с этой целью
                     _project.Links.RemoveAll(l => l.FromGoalCode == goal.Code || l.ToGoalCode == goal.Code);
                     _project.Goals.Remove(goal);
                 }

@@ -1,3 +1,6 @@
+/// <summary>
+/// Сервис расчета матриц смежности и весов, абсолютных весов целей
+/// </summary>
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +15,6 @@ namespace EngineeringTargets.Services
         {
             var result = new CalculationResult();
 
-            // Валидация
             result.ValidationErrors = Validation.ValidateProject(project);
             result.IsValid = result.ValidationErrors.Count == 0;
 
@@ -21,7 +23,6 @@ namespace EngineeringTargets.Services
                 return result;
             }
 
-            // Сортировка целей по уровню и номеру
             var sortedGoals = project.Goals
                 .OrderBy(g => g.LevelIndex)
                 .ThenBy(g => int.Parse(g.Code.Split('-')[1]))
@@ -29,14 +30,12 @@ namespace EngineeringTargets.Services
 
             int N = sortedGoals.Count;
 
-            // Создаем индекс по коду
             var goalIndex = new Dictionary<string, int>();
             for (int i = 0; i < N; i++)
             {
                 goalIndex[sortedGoals[i].Code] = i;
             }
 
-            // Матрица смежности A (N × N)
             var matrixA = new double[N, N];
             foreach (var link in project.Links)
             {
@@ -48,7 +47,6 @@ namespace EngineeringTargets.Services
                 }
             }
 
-            // Матрица весов W (N × N)
             var matrixW = new double[N, N];
             for (int p = 0; p < N; p++)
             {
@@ -61,7 +59,6 @@ namespace EngineeringTargets.Services
                 }
             }
 
-            // Расчет абсолютных весов
             var goalResults = new List<GoalResult>();
             for (int q = 0; q < N; q++)
             {
@@ -83,7 +80,6 @@ namespace EngineeringTargets.Services
                 });
             }
 
-            // Сортировка по убыванию абсолютного веса и присвоение рангов
             var sortedResults = goalResults.OrderByDescending(r => r.AbsoluteWeight).ToList();
             for (int i = 0; i < sortedResults.Count; i++)
             {
@@ -98,4 +94,3 @@ namespace EngineeringTargets.Services
         }
     }
 }
-

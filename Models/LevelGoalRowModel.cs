@@ -1,3 +1,6 @@
+/// <summary>
+/// Модель строки для таблицы уровней и целей
+/// </summary>
 namespace EngineeringTargets.Models
 {
     public class LevelGoalRowModel
@@ -12,4 +15,3 @@ namespace EngineeringTargets.Models
         public LevelModel? Level { get; set; }
     }
 }
-

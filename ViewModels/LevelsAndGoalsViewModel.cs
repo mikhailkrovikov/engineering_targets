@@ -1,3 +1,6 @@
+/// <summary>
+/// ViewModel для управления уровнями и целями в единой иерархической таблице
+/// </summary>
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -122,7 +125,6 @@ namespace EngineeringTargets.ViewModels
 
             foreach (var level in sortedLevels)
             {
-                // Добавляем строку уровня
                 TableRows.Add(new LevelGoalRowModel
                 {
                     Name = level.Name,
@@ -133,7 +135,6 @@ namespace EngineeringTargets.ViewModels
                     Level = level
                 });
 
-                // Добавляем цели этого уровня
                 var levelGoals = _project.Goals
                     .Where(g => g.LevelIndex == level.Index)
                     .OrderBy(g => int.Parse(g.Code.Split('-')[1]))
@@ -143,7 +144,7 @@ namespace EngineeringTargets.ViewModels
                 {
                     var goalRow = new LevelGoalRowModel
                     {
-                        Name = $"  {goal.Code} - {goal.Name}",
+                        Name = goal.Name,
                         Weight = goal.RelativeWeight,
                         IsLevel = false,
                         IsEmptyRow = false,
@@ -154,17 +155,9 @@ namespace EngineeringTargets.ViewModels
                     TableRows.Add(goalRow);
                 }
 
-                // Добавляем пустую строку перед следующим уровнем (кроме последнего)
                 if (level != sortedLevels.Last())
                 {
-                    TableRows.Add(new LevelGoalRowModel
-                    {
-                        Name = string.Empty,
-                        Weight = null,
-                        IsLevel = false,
-                        IsEmptyRow = true,
-                        LevelIndex = 0
-                    });
+                    TableRows.Add(new LevelGoalRowModel { IsEmptyRow = true });
                 }
             }
         }
@@ -198,33 +191,29 @@ namespace EngineeringTargets.ViewModels
 
             _project.Levels.Add(level);
             Levels.Add(level);
-            SelectedTemplate = null; // Очищаем выбор после добавления
+            SelectedTemplate = null;
             RefreshTable();
             _onProjectChanged?.Invoke();
         }
 
         private bool CanAddGoal()
         {
-            return !string.IsNullOrWhiteSpace(NewGoalName) && SelectedLevelForNewGoal != null;
+            return !string.IsNullOrWhiteSpace(NewGoalName) && 
+                   SelectedLevelForNewGoal != null && 
+                   NewGoalWeight >= 0 && 
+                   NewGoalWeight <= 1;
         }
 
         private void AddGoal()
         {
-            if (SelectedLevelForNewGoal == null) return;
+            if (!CanAddGoal() || SelectedLevelForNewGoal == null) return;
 
-            int nextNumber = 1;
-            var existingGoalsInLevel = _project.Goals.Where(g => g.LevelIndex == SelectedLevelForNewGoal.Index).ToList();
-            if (existingGoalsInLevel.Any())
-            {
-                var numbers = existingGoalsInLevel.Select(g => int.Parse(g.Code.Split('-')[1])).ToList();
-                nextNumber = numbers.Max() + 1;
-            }
-
-            string code = $"{SelectedLevelForNewGoal.Index}-{nextNumber}";
+            var levelGoals = _project.Goals.Where(g => g.LevelIndex == SelectedLevelForNewGoal.Index).ToList();
+            int nextGoalNumber = levelGoals.Count == 0 ? 1 : levelGoals.Max(g => int.Parse(g.Code.Split('-')[1])) + 1;
 
             var goal = new GoalModel
             {
-                Code = code,
+                Code = $"{SelectedLevelForNewGoal.Index}-{nextGoalNumber}",
                 LevelIndex = SelectedLevelForNewGoal.Index,
                 Name = NewGoalName,
                 RelativeWeight = NewGoalWeight
@@ -243,20 +232,21 @@ namespace EngineeringTargets.ViewModels
 
             if (SelectedRow.IsLevel && SelectedRow.Level != null)
             {
-                int levelIndex = SelectedRow.Level.Index;
-                var goalsToDelete = _project.Goals.Where(g => g.LevelIndex == levelIndex).ToList();
-                foreach (var goal in goalsToDelete)
+                var level = SelectedRow.Level;
+                var goalsToRemove = _project.Goals.Where(g => g.LevelIndex == level.Index).ToList();
+                foreach (var goal in goalsToRemove)
                 {
                     _project.Links.RemoveAll(l => l.FromGoalCode == goal.Code || l.ToGoalCode == goal.Code);
                     _project.Goals.Remove(goal);
                 }
-                _project.Levels.Remove(SelectedRow.Level);
-                Levels.Remove(SelectedRow.Level);
+                _project.Levels.Remove(level);
+                Levels.Remove(level);
             }
-            else if (!SelectedRow.IsLevel && SelectedRow.Goal != null)
+            else if (SelectedRow.Goal != null)
             {
-                _project.Links.RemoveAll(l => l.FromGoalCode == SelectedRow.Goal.Code || l.ToGoalCode == SelectedRow.Goal.Code);
-                _project.Goals.Remove(SelectedRow.Goal);
+                var goal = SelectedRow.Goal;
+                _project.Links.RemoveAll(l => l.FromGoalCode == goal.Code || l.ToGoalCode == goal.Code);
+                _project.Goals.Remove(goal);
             }
 
             SelectedRow = null;
@@ -269,11 +259,12 @@ namespace EngineeringTargets.ViewModels
             if (SelectedRow == null || SelectedRow.IsLevel || SelectedRow.IsEmptyRow || SelectedRow.Goal == null) return;
 
             SelectedRow.Goal.RelativeWeight = NewGoalWeight;
-            var projectIndex = _project.Goals.FindIndex(g => g.Code == SelectedRow.Goal.Code);
-            if (projectIndex >= 0)
+            var projectGoal = _project.Goals.FirstOrDefault(g => g.Code == SelectedRow.Goal.Code);
+            if (projectGoal != null)
             {
-                _project.Goals[projectIndex].RelativeWeight = NewGoalWeight;
+                projectGoal.RelativeWeight = NewGoalWeight;
             }
+            SelectedRow.Weight = NewGoalWeight;
             RefreshTable();
             _onProjectChanged?.Invoke();
         }
@@ -293,4 +284,3 @@ namespace EngineeringTargets.ViewModels
         }
     }
 }
-

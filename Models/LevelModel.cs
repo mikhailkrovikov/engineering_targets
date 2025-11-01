@@ -1,5 +1,6 @@
-using System;
-
+/// <summary>
+/// Модель уровня: индекс и название
+/// </summary>
 namespace EngineeringTargets.Models
 {
     public class LevelModel
@@ -8,4 +9,3 @@ namespace EngineeringTargets.Models
         public string Name { get; set; } = string.Empty;
     }
 }
-

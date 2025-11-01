@@ -1,3 +1,6 @@
+/// <summary>
+/// Интерфейс сервиса расчета графа целей
+/// </summary>
 using EngineeringTargets.Models;
 
 namespace EngineeringTargets.Services
@@ -7,4 +10,3 @@ namespace EngineeringTargets.Services
         CalculationResult Calculate(ProjectModel project);
     }
 }
-

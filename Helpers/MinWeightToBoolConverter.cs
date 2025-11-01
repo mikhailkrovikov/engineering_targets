@@ -1,3 +1,6 @@
+/// <summary>
+/// Конвертер для проверки наличия минимального порога веса (для UI)
+/// </summary>
 using System;
 using System.Globalization;
 using System.Windows.Data;
@@ -27,9 +30,7 @@ namespace EngineeringTargets.Helpers
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            // Конвертер только для чтения, не используется для записи
             return Binding.DoNothing;
         }
     }
 }
-

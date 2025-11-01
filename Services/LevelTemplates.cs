@@ -1,3 +1,6 @@
+/// <summary>
+/// Предопределенные шаблоны названий уровней для быстрого создания
+/// </summary>
 namespace EngineeringTargets.Services
 {
     public static class LevelTemplates

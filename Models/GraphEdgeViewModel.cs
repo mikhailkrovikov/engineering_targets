@@ -1,3 +1,6 @@
+/// <summary>
+/// Модель связи графа для визуализации стрелки между целями
+/// </summary>
 using System.Windows;
 using System.Windows.Media;
 
@@ -10,7 +13,6 @@ namespace EngineeringTargets.Models
         public Point StartPoint { get; set; }
         public Point EndPoint { get; set; }
         
-        // Path для отрисовки стрелки с наконечником
         public Geometry PathData
         {
             get
@@ -18,10 +20,8 @@ namespace EngineeringTargets.Models
                 var geometry = new PathGeometry();
                 var figure = new PathFigure { StartPoint = StartPoint };
                 
-                // Основная линия
                 figure.Segments.Add(new LineSegment(EndPoint, true));
                 
-                // Добавляем наконечник стрелки
                 var arrowSize = 8.0;
                 var angle = System.Math.Atan2(EndPoint.Y - StartPoint.Y, EndPoint.X - StartPoint.X);
                 var arrowPoint1 = new Point(

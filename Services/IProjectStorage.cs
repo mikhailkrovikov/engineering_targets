@@ -1,3 +1,6 @@
+/// <summary>
+/// Интерфейс сервиса сохранения и загрузки проектов
+/// </summary>
 using EngineeringTargets.Models;
 
 namespace EngineeringTargets.Services
@@ -8,4 +11,3 @@ namespace EngineeringTargets.Services
         ProjectModel Load(string filePath);
     }
 }
-

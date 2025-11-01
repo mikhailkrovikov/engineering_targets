@@ -1,3 +1,6 @@
+/// <summary>
+/// Настройка приложения: улучшение качества рендеринга для высоких DPI
+/// </summary>
 using System.Windows;
 using System.Windows.Media;
 
@@ -7,10 +10,8 @@ namespace EngineeringTargets
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            // Улучшаем качество рендеринга для высоких DPI
             RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.Default;
             
-            // Устанавливаем настройки текста для лучшей читаемости
             TextOptions.TextFormattingModeProperty.OverrideMetadata(
                 typeof(Window),
                 new System.Windows.FrameworkPropertyMetadata(

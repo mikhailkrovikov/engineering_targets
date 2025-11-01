@@ -1,3 +1,6 @@
+/// <summary>
+/// Модель проекта: заголовок, уровни, цели, связи
+/// </summary>
 using System.Collections.Generic;
 
 namespace EngineeringTargets.Models
@@ -10,4 +13,3 @@ namespace EngineeringTargets.Models
         public List<LinkModel> Links { get; set; } = new List<LinkModel>();
     }
 }
-
