@@ -1,0 +1,54 @@
+{
+  "Title": "Простой тест расчета",
+  "Levels": [
+    {
+      "Index": 1,
+      "Name": "Уровень 1"
+    },
+    {
+      "Index": 2,
+      "Name": "Уровень 2"
+    }
+  ],
+  "Goals": [
+    {
+      "Code": "1-1",
+      "LevelIndex": 1,
+      "Name": "Цель A",
+      "RelativeWeight": 0.6
+    },
+    {
+      "Code": "1-2",
+      "LevelIndex": 1,
+      "Name": "Цель B",
+      "RelativeWeight": 0.4
+    },
+    {
+      "Code": "2-1",
+      "LevelIndex": 2,
+      "Name": "Цель C",
+      "RelativeWeight": 0.5
+    },
+    {
+      "Code": "2-2",
+      "LevelIndex": 2,
+      "Name": "Цель D",
+      "RelativeWeight": 0.5
+    }
+  ],
+  "Links": [
+    {
+      "FromGoalCode": "1-1",
+      "ToGoalCode": "2-1"
+    },
+    {
+      "FromGoalCode": "1-1",
+      "ToGoalCode": "2-2"
+    },
+    {
+      "FromGoalCode": "1-2",
+      "ToGoalCode": "2-1"
+    }
+  ]
+}
+

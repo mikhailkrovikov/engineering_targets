@@ -19,26 +19,33 @@ namespace EngineeringTargets.ViewModels
             _projectStorage = new JsonProjectStorage();
             _project = new ProjectModel();
 
-            LevelsViewModel = new LevelsViewModel(_project, OnProjectChanged);
-            GoalsViewModel = new GoalsViewModel(_project, OnProjectChanged);
+            InitializeProjectChanged();
+
+            LevelsAndGoalsViewModel = new LevelsAndGoalsViewModel(_project, OnProjectChanged);
             LinksViewModel = new LinksViewModel(_project, OnProjectChanged);
-            CalculationViewModel = new CalculationViewModel(_project);
+            CalculationViewModel = new CalculationViewModel(_project, OnProjectChanged);
 
             NewProjectCommand = new RelayCommand(_ => NewProject());
             OpenProjectCommand = new RelayCommand(_ => OpenProject());
             SaveProjectCommand = new RelayCommand(_ => SaveProject());
         }
 
-        private void OnProjectChanged()
+        public Action OnProjectChanged { get; private set; } = () => { };
+
+        private void OnProjectChangedHandler()
         {
             // Обновляем все ViewModels при изменении проекта
-            GoalsViewModel.UpdateProject(_project);
+            LevelsAndGoalsViewModel.UpdateProject(_project);
             LinksViewModel.UpdateProject(_project);
             CalculationViewModel.UpdateProject(_project);
         }
 
-        public LevelsViewModel LevelsViewModel { get; }
-        public GoalsViewModel GoalsViewModel { get; }
+        private void InitializeProjectChanged()
+        {
+            OnProjectChanged = OnProjectChangedHandler;
+        }
+
+        public LevelsAndGoalsViewModel LevelsAndGoalsViewModel { get; }
         public LinksViewModel LinksViewModel { get; }
         public CalculationViewModel CalculationViewModel { get; }
 
@@ -49,8 +56,7 @@ namespace EngineeringTargets.ViewModels
         private void NewProject()
         {
             _project = new ProjectModel();
-            LevelsViewModel.UpdateProject(_project);
-            GoalsViewModel.UpdateProject(_project);
+            LevelsAndGoalsViewModel.UpdateProject(_project);
             LinksViewModel.UpdateProject(_project);
             CalculationViewModel.UpdateProject(_project);
         }
@@ -68,8 +74,7 @@ namespace EngineeringTargets.ViewModels
                 try
                 {
                     _project = _projectStorage.Load(dialog.FileName);
-                    LevelsViewModel.UpdateProject(_project);
-                    GoalsViewModel.UpdateProject(_project);
+                    LevelsAndGoalsViewModel.UpdateProject(_project);
                     LinksViewModel.UpdateProject(_project);
                     CalculationViewModel.UpdateProject(_project);
                 }

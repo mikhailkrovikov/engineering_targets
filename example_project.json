@@ -1,0 +1,242 @@
+{
+  "Title": "Проект разработки системы управления предприятием",
+  "Levels": [
+    {
+      "Index": 1,
+      "Name": "Человечество"
+    },
+    {
+      "Index": 2,
+      "Name": "Государство"
+    },
+    {
+      "Index": 3,
+      "Name": "Отрасль"
+    },
+    {
+      "Index": 4,
+      "Name": "Предприятие-заказчик"
+    },
+    {
+      "Index": 5,
+      "Name": "Проектная организация (разработчик)"
+    }
+  ],
+  "Goals": [
+    {
+      "Code": "1-1",
+      "LevelIndex": 1,
+      "Name": "Снижение экологического воздействия",
+      "RelativeWeight": 0.4
+    },
+    {
+      "Code": "1-2",
+      "LevelIndex": 1,
+      "Name": "Повышение качества жизни людей",
+      "RelativeWeight": 0.35
+    },
+    {
+      "Code": "1-3",
+      "LevelIndex": 1,
+      "Name": "Развитие цифровой экономики",
+      "RelativeWeight": 0.25
+    },
+    {
+      "Code": "2-1",
+      "LevelIndex": 2,
+      "Name": "Цифровизация государственных услуг",
+      "RelativeWeight": 0.3
+    },
+    {
+      "Code": "2-2",
+      "LevelIndex": 2,
+      "Name": "Повышение налоговых сборов",
+      "RelativeWeight": 0.25
+    },
+    {
+      "Code": "2-3",
+      "LevelIndex": 2,
+      "Name": "Создание рабочих мест",
+      "RelativeWeight": 0.25
+    },
+    {
+      "Code": "2-4",
+      "LevelIndex": 2,
+      "Name": "Импортозамещение",
+      "RelativeWeight": 0.2
+    },
+    {
+      "Code": "3-1",
+      "LevelIndex": 3,
+      "Name": "Стандартизация отраслевых процессов",
+      "RelativeWeight": 0.35
+    },
+    {
+      "Code": "3-2",
+      "LevelIndex": 3,
+      "Name": "Повышение конкурентоспособности отрасли",
+      "RelativeWeight": 0.3
+    },
+    {
+      "Code": "3-3",
+      "LevelIndex": 3,
+      "Name": "Внедрение инновационных технологий",
+      "RelativeWeight": 0.35
+    },
+    {
+      "Code": "4-1",
+      "LevelIndex": 4,
+      "Name": "Повышение эффективности производства",
+      "RelativeWeight": 0.25
+    },
+    {
+      "Code": "4-2",
+      "LevelIndex": 4,
+      "Name": "Снижение операционных затрат",
+      "RelativeWeight": 0.2
+    },
+    {
+      "Code": "4-3",
+      "LevelIndex": 4,
+      "Name": "Улучшение качества продукции",
+      "RelativeWeight": 0.2
+    },
+    {
+      "Code": "4-4",
+      "LevelIndex": 4,
+      "Name": "Повышение удовлетворенности клиентов",
+      "RelativeWeight": 0.2
+    },
+    {
+      "Code": "4-5",
+      "LevelIndex": 4,
+      "Name": "Расширение рынка сбыта",
+      "RelativeWeight": 0.15
+    },
+    {
+      "Code": "5-1",
+      "LevelIndex": 5,
+      "Name": "Создание качественного программного продукта",
+      "RelativeWeight": 0.3
+    },
+    {
+      "Code": "5-2",
+      "LevelIndex": 5,
+      "Name": "Соблюдение сроков разработки",
+      "RelativeWeight": 0.25
+    },
+    {
+      "Code": "5-3",
+      "LevelIndex": 5,
+      "Name": "Получение прибыли от проекта",
+      "RelativeWeight": 0.2
+    },
+    {
+      "Code": "5-4",
+      "LevelIndex": 5,
+      "Name": "Развитие экспертизы команды",
+      "RelativeWeight": 0.15
+    },
+    {
+      "Code": "5-5",
+      "LevelIndex": 5,
+      "Name": "Расширение портфеля проектов",
+      "RelativeWeight": 0.1
+    }
+  ],
+  "Links": [
+    {
+      "FromGoalCode": "1-1",
+      "ToGoalCode": "2-1"
+    },
+    {
+      "FromGoalCode": "1-2",
+      "ToGoalCode": "2-1"
+    },
+    {
+      "FromGoalCode": "1-2",
+      "ToGoalCode": "2-3"
+    },
+    {
+      "FromGoalCode": "1-3",
+      "ToGoalCode": "2-1"
+    },
+    {
+      "FromGoalCode": "1-3",
+      "ToGoalCode": "3-3"
+    },
+    {
+      "FromGoalCode": "2-1",
+      "ToGoalCode": "3-1"
+    },
+    {
+      "FromGoalCode": "2-2",
+      "ToGoalCode": "3-2"
+    },
+    {
+      "FromGoalCode": "2-3",
+      "ToGoalCode": "3-2"
+    },
+    {
+      "FromGoalCode": "2-4",
+      "ToGoalCode": "3-2"
+    },
+    {
+      "FromGoalCode": "2-4",
+      "ToGoalCode": "5-5"
+    },
+    {
+      "FromGoalCode": "3-1",
+      "ToGoalCode": "4-1"
+    },
+    {
+      "FromGoalCode": "3-1",
+      "ToGoalCode": "4-2"
+    },
+    {
+      "FromGoalCode": "3-2",
+      "ToGoalCode": "4-4"
+    },
+    {
+      "FromGoalCode": "3-2",
+      "ToGoalCode": "4-5"
+    },
+    {
+      "FromGoalCode": "3-3",
+      "ToGoalCode": "4-1"
+    },
+    {
+      "FromGoalCode": "3-3",
+      "ToGoalCode": "4-3"
+    },
+    {
+      "FromGoalCode": "4-1",
+      "ToGoalCode": "5-1"
+    },
+    {
+      "FromGoalCode": "4-1",
+      "ToGoalCode": "5-2"
+    },
+    {
+      "FromGoalCode": "4-2",
+      "ToGoalCode": "5-2"
+    },
+    {
+      "FromGoalCode": "4-2",
+      "ToGoalCode": "5-3"
+    },
+    {
+      "FromGoalCode": "4-3",
+      "ToGoalCode": "5-1"
+    },
+    {
+      "FromGoalCode": "4-4",
+      "ToGoalCode": "5-1"
+    },
+    {
+      "FromGoalCode": "4-5",
+      "ToGoalCode": "5-5"
+    }
+  ]
+}
+
