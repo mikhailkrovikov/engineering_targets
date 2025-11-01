@@ -21,13 +21,29 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0" Style="{StaticResource ModernMenu}">
-            <MenuItem Header="Файл" Style="{StaticResource ModernMenuItem}">
-                <MenuItem Header="Новый проект" Command="{Binding NewProjectCommand}" Style="{StaticResource ModernMenuItem}"/>
-                <MenuItem Header="Открыть проект" Command="{Binding OpenProjectCommand}" Style="{StaticResource ModernMenuItem}"/>
-                <MenuItem Header="Сохранить проект" Command="{Binding SaveProjectCommand}" Style="{StaticResource ModernMenuItem}"/>
-            </MenuItem>
-        </Menu>
+        <!-- Панель инструментов -->
+        <Border Grid.Row="0" 
+                Background="{StaticResource SurfaceColor}"
+                BorderBrush="{StaticResource BorderColor}"
+                BorderThickness="0,0,0,1"
+                Padding="10,8">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Новый проект" 
+                        Command="{Binding NewProjectCommand}" 
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="0,0,8,0"
+                        Padding="12,6"/>
+                <Button Content="Открыть проект" 
+                        Command="{Binding OpenProjectCommand}" 
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="0,0,8,0"
+                        Padding="12,6"/>
+                <Button Content="Сохранить проект" 
+                        Command="{Binding SaveProjectCommand}" 
+                        Style="{StaticResource SecondaryButton}"
+                        Padding="12,6"/>
+            </StackPanel>
+        </Border>
 
         <TabControl Grid.Row="1" Margin="10" Style="{StaticResource ModernTabControl}">
             <TabControl.ItemContainerStyle>
