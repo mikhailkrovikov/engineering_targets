@@ -132,6 +132,7 @@ namespace EngineeringTargets.ViewModels
                     IsLevel = true,
                     IsEmptyRow = false,
                     LevelIndex = level.Index,
+                    GoalCode = $"Уровень {level.Index}",
                     Level = level
                 });
 
@@ -157,7 +158,11 @@ namespace EngineeringTargets.ViewModels
 
                 if (level != sortedLevels.Last())
                 {
-                    TableRows.Add(new LevelGoalRowModel { IsEmptyRow = true });
+                    TableRows.Add(new LevelGoalRowModel 
+                    { 
+                        IsEmptyRow = true,
+                        GoalCode = ""
+                    });
                 }
             }
         }

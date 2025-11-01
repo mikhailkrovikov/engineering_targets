@@ -103,6 +103,20 @@
                             <Style TargetType="DataGridRow" BasedOn="{StaticResource ModernDataGridRow}"/>
                         </DataGrid.RowStyle>
                         <DataGrid.Columns>
+                            <DataGridTextColumn Header="Код" Binding="{Binding GoalCode}" Width="100">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Padding" Value="12,8"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsLevel}" Value="True">
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                                <Setter Property="Foreground" Value="{StaticResource PrimaryColor}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                             <DataGridTextColumn Header="Уровень / Цель" Binding="{Binding Name}" Width="*">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
