@@ -2,7 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewModels="clr-namespace:EngineeringTargets.ViewModels"
-        Title="Предпроектные исследования: модуль графа целей" Height="700" Width="1200"
+        Title="Цели проектирования" 
+        Height="900" Width="1600"
+        MinHeight="600" MinWidth="1000"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource BackgroundColor}">
     <Window.Resources>
@@ -520,6 +522,121 @@
                                    Style="{StaticResource ModernListBox}"/>
                         </GroupBox>
                     </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Граф">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Grid.Row="0" 
+                             Text="Визуализация графа целей (только для просмотра)" 
+                             Style="{StaticResource BodyTextBlock}"
+                             Margin="0,0,0,10"
+                             Foreground="{StaticResource TextSecondaryColor}"/>
+                    
+                    <ScrollViewer Grid.Row="1" 
+                                HorizontalScrollBarVisibility="Auto" 
+                                VerticalScrollBarVisibility="Auto"
+                                Background="{StaticResource BackgroundColor}">
+                        <Canvas Width="{Binding GraphViewModel.CanvasWidth}" 
+                                Height="{Binding GraphViewModel.CanvasHeight}"
+                                Background="{StaticResource SurfaceColor}">
+                            
+                            <!-- Стрелки (рисуем первыми, чтобы были под узлами) -->
+                            <ItemsControl ItemsSource="{Binding GraphViewModel.Edges}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Path Stroke="{StaticResource AccentColor}" 
+                                              StrokeThickness="2"
+                                              Fill="{StaticResource AccentColor}"
+                                              Data="{Binding PathData}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!-- Узлы -->
+                            <ItemsControl ItemsSource="{Binding GraphViewModel.Nodes}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Canvas>
+                                            <!-- Прямоугольник узла -->
+                                            <Border Canvas.Left="{Binding Position.X}" 
+                                                    Canvas.Top="{Binding Position.Y}"
+                                                    Width="{Binding Width}" 
+                                                    Height="{Binding Height}"
+                                                    Background="{StaticResource SurfaceColor}"
+                                                    BorderBrush="{StaticResource PrimaryColor}"
+                                                BorderThickness="2"
+                                                CornerRadius="6">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="6" ShadowDepth="3" Color="#40000000"/>
+                                                </Border.Effect>
+                                                <StackPanel Margin="8">
+                                                    <TextBlock Text="{Binding GoalCode}" 
+                                                             FontWeight="SemiBold" 
+                                                             FontSize="13"
+                                                             Foreground="{StaticResource PrimaryColor}"
+                                                             HorizontalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding GoalName}" 
+                                                             FontSize="11"
+                                                             TextWrapping="Wrap"
+                                                             TextAlignment="Center"
+                                                             Foreground="{StaticResource TextPrimaryColor}"
+                                                             Margin="0,4,0,0"
+                                                             MaxHeight="32"
+                                                             TextTrimming="CharacterEllipsis"/>
+                                                    <StackPanel Orientation="Horizontal" 
+                                                              HorizontalAlignment="Center" 
+                                                              Margin="0,4,0,0">
+                                                        <TextBlock Text="r:" 
+                                                                 FontSize="9"
+                                                                 Foreground="{StaticResource TextSecondaryColor}"
+                                                                 Margin="0,0,2,0"/>
+                                                        <TextBlock FontSize="9"
+                                                                 Foreground="{StaticResource TextSecondaryColor}">
+                                                            <TextBlock.Text>
+                                                                <Binding Path="RelativeWeight" StringFormat="{}{0:F2}"/>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                        <TextBlock Text=" | " 
+                                                                 FontSize="9"
+                                                                 Foreground="{StaticResource TextSecondaryColor}"
+                                                                 Margin="2,0"/>
+                                                        <TextBlock Text="R:" 
+                                                                 FontSize="9"
+                                                                 Foreground="{StaticResource AccentColor}"
+                                                                 FontWeight="Medium"
+                                                                 Margin="0,0,2,0"/>
+                                                        <TextBlock FontSize="9"
+                                                                 Foreground="{StaticResource AccentColor}"
+                                                                 FontWeight="Medium">
+                                                            <TextBlock.Text>
+                                                                <Binding Path="AbsoluteWeight" StringFormat="{}{0:F2}"/>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                        </Canvas>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Canvas>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
         </TabControl>

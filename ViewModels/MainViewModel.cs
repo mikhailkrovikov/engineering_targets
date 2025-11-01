@@ -24,6 +24,16 @@ namespace EngineeringTargets.ViewModels
             LevelsAndGoalsViewModel = new LevelsAndGoalsViewModel(_project, OnProjectChanged);
             LinksViewModel = new LinksViewModel(_project, OnProjectChanged);
             CalculationViewModel = new CalculationViewModel(_project, OnProjectChanged);
+            GraphViewModel = new GraphViewModel(_project, OnProjectChanged);
+            
+            // Подписываемся на изменения результатов расчета для обновления графа
+            CalculationViewModel.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(CalculationViewModel.HasResults) && CalculationViewModel.HasResults)
+                {
+                    GraphViewModel.RefreshGraph();
+                }
+            };
 
             NewProjectCommand = new RelayCommand(_ => NewProject());
             OpenProjectCommand = new RelayCommand(_ => OpenProject());
@@ -38,6 +48,7 @@ namespace EngineeringTargets.ViewModels
             LevelsAndGoalsViewModel.UpdateProject(_project);
             LinksViewModel.UpdateProject(_project);
             CalculationViewModel.UpdateProject(_project);
+            GraphViewModel.UpdateProject(_project);
         }
 
         private void InitializeProjectChanged()
@@ -48,6 +59,7 @@ namespace EngineeringTargets.ViewModels
         public LevelsAndGoalsViewModel LevelsAndGoalsViewModel { get; }
         public LinksViewModel LinksViewModel { get; }
         public CalculationViewModel CalculationViewModel { get; }
+        public GraphViewModel GraphViewModel { get; }
 
         public ICommand NewProjectCommand { get; }
         public ICommand OpenProjectCommand { get; }
@@ -59,6 +71,7 @@ namespace EngineeringTargets.ViewModels
             LevelsAndGoalsViewModel.UpdateProject(_project);
             LinksViewModel.UpdateProject(_project);
             CalculationViewModel.UpdateProject(_project);
+            GraphViewModel.UpdateProject(_project);
         }
 
         private void OpenProject()
@@ -77,6 +90,7 @@ namespace EngineeringTargets.ViewModels
                     LevelsAndGoalsViewModel.UpdateProject(_project);
                     LinksViewModel.UpdateProject(_project);
                     CalculationViewModel.UpdateProject(_project);
+                    GraphViewModel.UpdateProject(_project);
                 }
                 catch (Exception ex)
                 {
